@@ -11,7 +11,7 @@ resource "aws_db_instance" "db" {
   allocated_storage    = 20
   username             = "admin"
   password             = "himanshu123"
-  db_name              = "mydb"
+  db_name              = "db"
   skip_final_snapshot  = true
   publicly_accessible  = false
 }
