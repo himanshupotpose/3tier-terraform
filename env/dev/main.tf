@@ -9,7 +9,7 @@ module "vpc" {
 }
 
 module "S3" {
-  source  = "../../S3/frontend"
+  source  = "../../S3/3-tier/frontend"
   project = var.project
   env     = var.env
 }
