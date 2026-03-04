@@ -8,9 +8,10 @@ resource "aws_vpc" "main" {
 
 # Public Subnet
 resource "aws_subnet" "public" {
+  count = 2
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
-  availability_zone = "ap-south-1a"
+  cidr_block = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index)
+  availability_zone = element(["ap-south-1a", "ap-south-1b"], count.index)
 
   tags = {
     Name = "${var.project}-${var.env}-public"
@@ -19,9 +20,10 @@ resource "aws_subnet" "public" {
 
 # Private Subnet
 resource "aws_subnet" "private" {
+  count = 2
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
-  availability_zone = "ap-south-1a"
+  cidr_block = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index + 10)
+  availability_zone = element(["ap-south-1a", "ap-south-1b"], count.index)
 
   tags = {
     Name = "${var.project}-${var.env}-private"
