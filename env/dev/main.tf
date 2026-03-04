@@ -8,21 +8,25 @@ module "vpc" {
   env     = var.env
 }
 
-module "s3" {
-  source  = "../../modules/s3"
+module "S3" {
+  source  = "../../S3/frontend"
   project = var.project
   env     = var.env
 }
 
-module "ec2" {
-  source = "../../modules/ec2"
-  project = var.project
-  env = var.env
-  public_subnet_id = module.vpc.public_subnet_id
+module "EKS" {
+  source     = "../../../EKS/backend"
+  project    = var.project
+  env        = var.env
+  subnet_ids = concat(
+    module.vpc.public_subnet_ids,
+    module.vpc.private_subnet_ids
+  )
 }
 
-module "rds" {
-  source  = "../../modules/rds"
+
+module "RDS" {
+  source  = "../../RDS-module/database"
   project = var.project
   env     = var.env
 }
