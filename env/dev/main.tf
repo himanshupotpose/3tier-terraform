@@ -15,7 +15,7 @@ module "S3" {
 }
 
 module "EKS" {
-  source     = "../../../EKS/backend"
+  source     = "../../EKS/backend"
   project    = var.project
   env        = var.env
   subnet_ids = concat(
