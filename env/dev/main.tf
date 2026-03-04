@@ -19,8 +19,8 @@ module "EKS" {
   project    = var.project
   env        = var.env
   subnet_ids = concat(
-    module.vpc.public_subnet_id,
-    module.vpc.private_subnet_id
+    module.vpc.public_subnet_ids,
+    module.vpc.private_subnet_ids
   )
 }
 
