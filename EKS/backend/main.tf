@@ -1,3 +1,11 @@
+# Random suffix generate karne ke liye
+resource "random_string" "suffix" {
+  length  = 4
+  special = false
+  upper   = false
+}
+
+# EKS Cluster
 resource "aws_eks_cluster" "eks" {
   name     = "${var.project}-${var.env}-eks"
   role_arn = aws_iam_role.eks_role.arn
@@ -7,8 +15,9 @@ resource "aws_eks_cluster" "eks" {
   }
 }
 
+# IAM Role with unique name
 resource "aws_iam_role" "eks_role" {
-  name = "${var.project}-${var.env}-eks-role"
+  name = "${var.project}-${var.env}-eks-role-${random_string.suffix.result}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -22,6 +31,7 @@ resource "aws_iam_role" "eks_role" {
   })
 }
 
+# Attach EKS Cluster Policy
 resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   role       = aws_iam_role.eks_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
